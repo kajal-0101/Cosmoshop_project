@@ -1,0 +1,161 @@
+{%extends 'template.html' %}
+{%load static%}
+{% block content %}
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+<script src="{% static '/js/image_slider.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+<style>
+    .step {
+      border-radius: 6px;
+      text-align: center;
+      padding-left: 20px;
+      padding-right: 20px;
+      padding-bottom: 48px;
+      padding-top: 48px;
+      background-color: #f4f4f4;
+      color: inherit;
+      margin-top: 40px;
+      margin-bottom: 30px;
+	  text-align:center;
+	}
+</style>
+       <div id="content">
+        <div class="bs-example">
+            <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark navbar-hover">
+    <div class="collapse navbar-collapse" id="navbarHover">
+<!--        <div id="main-sidebar">-->
+<!--            <button class="nav-item nav-link active showsidebar" onclick="openNav()"><i class="fa fa-bars" aria-hidden="true"></i></button>                        -->
+<!--        </div>-->
+        <span style="margin-right: 30px;margin-left:30px;width:100px">
+          <a href="#" class="navbar-brand" style="font-family:'Dancing Script';font-size: 25px; font-weight: bold;color: #e84393;">
+          <img src="{% static '/images/cosmoshop-icon.png' %}" style="margin-bottom: 10px;">Cosmoshop</a>
+        </span>
+        <ul class="navbar-nav">
+            <li class="nav-item active" id="home">
+                <a class="nav-link" href="/homepage_view">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Brands
+                </a>
+                <ul class="dropdown-menu">
+                      {% for brand in Product_Brands %}
+
+                    <li><a class="dropdown-item" href="/catalog/brand/{{ brand.product_brand_id }}">{{brand.name}}</a></li>
+                     {% endfor %}
+                </ul>
+              </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Categories
+                </a>
+                <ul class="dropdown-menu">
+                    {% for category in Category %}
+                    <li><a class="dropdown-item dropdown-toggle" href="/catalog/category/{{ category.category_id }}">{{category.name}}</a>
+                        <ul class="dropdown-menu">
+                            {% for sub_cat1 in Sub_Category1 %}
+                                {% if sub_cat1.category_id_id == category.category_id %}
+                            <li><a class="dropdown-item dropdown-toggle" href="/catalog/sub_category1/{{ sub_cat1.sub_category1_id }}">{{sub_cat1.name}}</a>
+                                <ul class="dropdown-menu">
+                                     {% for sub_cat2 in Sub_Category2 %}
+                                        {% if sub_cat2.sub_category1_id_id == sub_cat1.sub_category1_id %}
+                                    <li><a class="dropdown-item" href="/catalog/sub_category2/{{ sub_cat2.sub_category2_id }}">{{sub_cat2.name}}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="about_us" href="/about_us">About Us</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="contact_us" href="/contact_us">Contact Us</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="skin_survey" href="/skin_survey">Skin Survey</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="orders" href="/orders">Orders</a>
+            </li>
+        </ul>
+       <form class="form-inline">
+          <div class="input-group">
+            <input type="text" id="search" class="form-control" placeholder="Search">
+              <div class="input-group-append">
+                <button type="button" class="btn btn-secondary"><i class="fa fa-search"></i></button>
+                <button type="button" class="btn btn-secondary"><i class="fa fa-microphone" aria-hidden="true"></i></button>
+              </div>
+          </div>
+        </form>
+        <div class="navbar-nav">
+          {% comment %} <a href="#" class="nav-item nav-link">Login</a> {% endcomment %}
+           {% if session == 'on' %}
+            <a href="/logout" class="btn btn-info btn-round bg-dark">Logout</a>
+            {% else %}
+            <button type="button" class="btn btn-info btn-round bg-dark" style="margin-left:10px;border:none;color:#A9A9A9;" data-toggle="modal" data-target="#loginModal1">
+            Login
+           </button>
+            {% endif %}
+
+          <a href="/wishlist" id="wishlist" class="nav-item nav-link"><i class="fa fa-heart" aria-hidden="true"></i></a>
+          <span class="badge" id="wishlistbadge" style="color:#A9A9A9;">0</span>
+          <a href="/cart"  id="cart"class="nav-item nav-link"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+          <span class="badge" id="cartlistbadge" style="color:#A9A9A9;">0</span>
+        </div>
+      </div>
+    </nav>
+    <!-- Navbar Ends -->
+
+
+	<section class="animation" style="margin-top:100px;left:0;right:0">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 ">
+				<div class="row">
+					<h2>How Does it Work?</h2>
+					<p itemprop="description">With the help of our Skin Survey getting the personied prduct is made easy. Simply start by selecting an image from your pc. Next up you will get to see detection of your skin Tone, Pimple and wrinkles Density on your face. Having these detection it will be easier for users to get matching product and filtering other product out which will not suite their Skin. Don't forget to Check the product and Add to Carts the one you like the most!
+					</p>
+					<form method = "post" action="upload_survey_image" enctype="multipart/form-data" name="uploadform" id="uploadform">
+                   {% csrf_token %}
+					<div class="step">
+						  <input type="file" id="surveyimage" name="surveyimage">
+						  <button type="submit" id="imguploadbutton" class="btn btn-success btn-sm" >Upload Image</button>
+					</div>  
+                  </form>
+                </div>
+            </div>
+        </div>
+		<div class="row">
+			<div class="col-md-6">
+				<h2>Guidlines for uploading image</h2>
+				<ul>
+					<li>Image file should be uploaded in *.jpg/*.png/*.svg/*.heif/*.bmp format.</li>
+					<li>Image file size should be less than or equal to 500 KB.</li>
+					<li>Image should be in color</li>
+					<li>Image shoud be 2 x 2 inches (51 x 51 mm) in size</li>
+					<li>Image should be taken within the last 6 months to reflect your current appearance</li>
+					<li>Image should be taken in front of a plain white or off-white background</li>
+					<li>Image should be taken in full-face view directly facing the camera</li>
+					<li>Image should have a neutral facial expression and both eyes open</li>
+					<li>Sized such that the head is between 1 inch and 1 3/8 inches (between 25 and 35 mm) from the bottom of the chin to the top of the head.</li>
+				</ul>
+			 </div>
+			 <div class="col-md-6">
+				<h2>About</h2>
+				<p>If you want to offer a new and unique skin care product to the market, send this survey to learn more about your target audience. Cosmoshop’s unique features assess your skin based on your skin problems, your skin tone, the degree of sensitivity, and all the other myriad factors that constantly affect your skin.
+
+After a thorough assessment of your skin through our skin survey, a customised skincare regimen is provided based on your Skin’s current needs — and all this at your convenience, without having to break your back over periodic visits to the dermatologist or emptying your pockets for those expensive treatments..</p>
+			 </div>
+		</div>
+    </div>
+    </section>
+
+{% endblock %}

@@ -1,0 +1,331 @@
+{%extends 'template.html' %}
+{%load static%}
+{% block content %}
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+<link rel="stylesheet" href="{% static '/css/product-catalog.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<div id="content">
+        <div class="bs-example">
+            <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark navbar-hover">
+    <div class="collapse navbar-collapse" id="navbarHover">
+<!--        <div id="main-sidebar">-->
+<!--            <button class="nav-item nav-link active showsidebar" onclick="openNav()"><i class="fa fa-bars" aria-hidden="true"></i></button>                        -->
+<!--        </div>-->
+        <span style="margin-right: 30px;margin-left:30px;width:100px">
+          <a href="#" class="navbar-brand" style="font-family:'Dancing Script';font-size: 25px; font-weight: bold;color: #e84393;">
+          <img src="{% static '/images/cosmoshop-icon.png' %}" style="margin-bottom: 10px;">Cosmoshop</a>
+        </span>
+        <ul class="navbar-nav">
+            <li class="nav-item active" id="home">
+                <a class="nav-link" href="/homepage_view">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Brands
+                </a>
+                <ul class="dropdown-menu">
+                      {% for brand in Product_Brands %}
+
+                    <li><a class="dropdown-item" href="/catalog/brand/{{ brand.product_brand_id }}">{{brand.name}}</a></li>
+                     {% endfor %}
+                </ul>
+              </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Categories
+                </a>
+                <ul class="dropdown-menu">
+                    {% for category in Category %}
+                    <li><a class="dropdown-item dropdown-toggle" href="/catalog/category/{{ category.category_id }}">{{category.name}}</a>
+                        <ul class="dropdown-menu">
+                            {% for sub_cat1 in Sub_Category1 %}
+                                {% if sub_cat1.category_id_id == category.category_id %}
+                            <li><a class="dropdown-item dropdown-toggle" href="/catalog/sub_category1/{{ sub_cat1.sub_category1_id }}">{{sub_cat1.name}}</a>
+                                <ul class="dropdown-menu">
+                                     {% for sub_cat2 in Sub_Category2 %}
+                                        {% if sub_cat2.sub_category1_id_id == sub_cat1.sub_category1_id %}
+                                    <li><a class="dropdown-item" href="/catalog/sub_category2/{{ sub_cat2.sub_category2_id }}">{{sub_cat2.name}}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="about_us" href="/about_us">About Us</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="contact_us" href="/contact_us">Contact Us</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="skin_survey" href="/skin_survey">Skin Survey</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="orders" href="/orders">Orders</a>
+            </li>
+        </ul>
+       <form class="form-inline">
+          <div class="input-group">
+            <input type="text" id="search" class="form-control" placeholder="Search">
+              <div class="input-group-append">
+                <button type="button" id="text_search_btn" class="btn btn-secondary"><i class="fa fa-search"></i></button>
+                <button type="button" id="voice_search_btn" class="btn btn-secondary"><i class="fa fa-microphone" aria-hidden="true"></i></button>
+              </div>
+          </div>
+        </form>
+        <div class="navbar-nav">
+          {% comment %} <a href="#" class="nav-item nav-link">Login</a> {% endcomment %}
+          {% if session == 'on' %}
+            <a href="/logout" class="btn btn-info btn-round bg-dark">Logout</a>
+            {% else %}
+            <button type="button" class="btn btn-info btn-round bg-dark" style="margin-left:10px;border:none;color:#A9A9A9;" data-toggle="modal" data-target="#loginModal1">
+            Login
+           </button>
+            {% endif %}
+          <a href="/wishlist" id="wishlist" class="nav-item nav-link"><i class="fa fa-heart" aria-hidden="true"></i></a>
+          <span class="badge" id="wishlistbadge" style="color:#A9A9A9;">0</span>
+          <a href="/cart"  id="cart"class="nav-item nav-link"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+          <span class="badge" id="cartlistbadge" style="color:#A9A9A9;">0</span>
+        </div>
+      </div>
+    </nav>
+    <!-- Navbar Ends -->
+
+
+	<section class="Catalog" style="margin-top:100px;left:0;right:0">
+	<div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                 <div class="row g-2">
+                     <select id="sort" onchange="catalog_sort()">
+                         <option value="0">--SELECT--</option>
+                         <option value="1">Price Low to High</option>
+                         <option value="2">Price High to Low</option>
+                     </select>
+                 </div>
+            </div>
+        </div>
+        <div class="row">
+                <div class="col-md-12">
+                    <div class="row g-2">
+
+                        {% for product in Products %}
+                            {% if Sub_Categories2 %}
+                                {% if product.sub_category2_id_id in Sub_Categories2 %}
+                                    <div class="col-md-4">
+                                        <div class="product py-4">
+                                            <div class="text-center"><a href="/product_details/{{product.product_id}}"> <img src="{%static '/images/Products/' %}{{product.product_image}}" style="height:200px;width:200px;"></a> </div>
+                                            <div class="about text-center">
+                                                <h5>True {{product.name}} </h5> <span><i  class="fa fa-rupee-sign"> {{product.price}}</i></span>
+                                            </div>
+                                            <div class="cart-button mt-3 px-2 d-flex justify-content-between align-items-center">
+                                                <button class="btn btn-primary text-uppercase" onclick="add_to_cart('{{product.product_id}}');">Add to cart</button>
+                                                <div class="add">
+                                                    <span class="product_fav"><a href="javascript:add_to_wishlist('{{product.product_id}}');"><i class="fa fa-heart"></i></a></span>
+                                                    <span class="product_fav"><a href="javascript:add_to_cart('{{product.product_id}}');"><i class="fa fa-shopping-cart"></i></a></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                            {% else %}
+                        <div class="col-md-4">
+                            <div class="product py-4">
+                                <div class="text-center"> <img src="{%static '/images/Products/' %}{{product.product_image}}" style="height:200px;width:200px;"> </div>
+                                <div class="about text-center">
+                                    <h5>{{product.name}} </h5> <span><i  class="fa fa-rupee-sign"> {{product.price}}</i></span>
+                                </div>
+                                <div class="cart-button mt-3 px-2 d-flex justify-content-between align-items-center">
+                                                <button class="btn btn-primary text-uppercase" onclick="add_to_cart('{{product.product_id}}');">Add to cart</button>
+                                                <div class="add">
+                                                    <span class="product_fav"><a href="javascript:add_to_wishlist('{{product.product_id}}');"><i class="fa fa-heart"></i></a></span>
+                                                    <span class="product_fav"><a href="javascript:add_to_cart('{{product.product_id}}');"><i class="fa fa-shopping-cart"></i></a></span>
+                                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+        </div>
+    </div>
+    </section>
+    <script type="text/javascript">
+
+    <!--	Speech Recognition	-->
+
+    var speechRecognition = window.webkitSpeechRecognition;
+
+    var recognition = new speechRecognition();
+
+    var search = $("#search")
+
+    var text_search_btn = $("text_search_btn")
+
+    var voice_search_btn = $("voice_search_btn")
+
+    var content = ''
+
+    recognition.continuous = true
+
+    recognition.onstart = function(event){
+        alert("Listening..!");
+    }
+
+    recognition.onspeechend = function(event){
+        alert("Searching..!");
+    }
+
+    recognition.onresult = function(event){
+        var current = event.resultIndex;
+        var transcript = event.results[current][0].transcript
+        content += transcript
+
+        window.location.href = "/search_catalog/"+content
+    }
+
+
+    recognition.onerror = function(event){
+        alert(" Please Try Again..! ");
+    }
+
+    $("#text_search_btn").click(function(event){
+        var keyword = $("#search").val();
+        window.location.href = "/search_catalog/"+keyword
+    });
+
+    $("#voice_search_btn").click(function(event){
+        if( content.length ){
+            content += '';
+        }
+
+        recognition.start();
+    });
+
+        var url = window.location.href;
+
+        function add_to_cart(id)
+        {
+            window.location.href = '/cart/'+id;
+        }
+        function catalog_sort()
+        {
+
+
+            url_array = url.split('/');
+            search = url_array[4];
+            id = url_array[5];
+
+            sort =  $( "#sort option:selected" ).val();
+            window.location.href = '/catalog_sort/'+search+'/'+id+'/'+sort;
+        }
+        //cart and wishlist
+        //localStorage.removeItem("cart");
+		var x = localStorage.getItem("cart");
+		if(x !== null)
+		{
+			var res = x.split(",");
+			cart.textContent = res.length;
+		}
+
+		var wish = document.getElementById("wishlistbadge");
+		//localStorage.removeItem("wish");
+		var x = localStorage.getItem("wish");
+		if(x !== null)
+		{
+			var res1 = x.split(",");
+			wish.textContent = res1.length;
+		}
+
+
+        function add_to_cart(id)
+        {
+			var cart1 = document.getElementById("cartlistbadge");
+			var cartNo = parseInt(cart1.textContent);
+			var x = localStorage.getItem("cart");
+			if(x === null)
+			{
+				localStorage.cart = [id];
+				alert("Item Added to cart !!!");
+				var x = localStorage.getItem("cart");
+			}
+			else
+			{
+				x = x + "," + id;
+				alert("Item Added to cart !!!");
+				localStorage.cart = x;
+			}
+			var res = x.split(",");
+			cart1.textContent = res.length;
+            //window.location.href = '/cart/'+id;
+        }
+		function add_to_wishlist(id)
+        {
+			var cart1 = document.getElementById("wishlistbadge");
+			var cartNo = parseInt(cart1.textContent);
+			var x = localStorage.getItem("wish");
+			if(x === null)
+			{
+				localStorage.wish = [id];
+				alert("Item Added to your Wish !!!");
+				var x = localStorage.getItem("wish");
+			}
+			else
+			{
+				x = x + "," + id;
+				alert("Item Added to your Wish !!!");
+				localStorage.wish = x;
+			}
+			var res = x.split(",");
+			cart1.textContent = res.length;
+            //window.location.href = '/cart/'+id;
+        }
+        function filter(name,id)
+        {
+
+            if( name == 'brand' )
+            {
+                if( ! brand_list.includes(id) )
+                {
+                    brand_list.push(id);
+                }
+            }
+            if( name == 'price' )
+            {
+                if( ! price_list.includes(id) )
+                {
+                    price_list.push(id);
+                }
+            }
+
+            url_array = url.split('/');
+            search = url_array[4];
+            id = url_array[5];
+            document.cookie = "search="+search;
+            document.cookie = "id="+id;
+            cookies = document.cookie;
+
+            cookies_array = cookies.split(";");
+            cookie1_array =  cookies_array[0].split("=");
+            cookie2_array =  cookies_array[1].split("=");
+            cookie_search = cookie1_array[1];
+            cookie_id = cookie2_array[1];
+
+            window.location.href = '/catalog/'+cookie_search+'/'+cookie_id+'/'+brand_list+'/'+price_list;
+        }
+
+    </script>
+{% endblock %}

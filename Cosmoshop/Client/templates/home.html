@@ -1,0 +1,410 @@
+
+{%extends 'template.html' %}
+{%load static%}
+{% block content %}
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+	<script src="{% static '/js/image_slider.js' %}"></script>
+<!--	<script src="{% static '/js/main.js' %}"></script>-->
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-modal/2.2.6/js/bootstrap-modalmanager.min.js" integrity="sha512-/HL24m2nmyI2+ccX+dSHphAHqLw60Oj5sK8jf59VWtFWZi9vx7jzoxbZmcBeeTeCUc7z1mTs3LfyXGuBU32t+w==" crossorigin="anonymous"></script>
+<div id="content">
+        <div class="bs-example">
+            <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark navbar-hover">
+    <div class="collapse navbar-collapse" id="navbarHover">
+<!--        <div id="main-sidebar">-->
+<!--            <button class="nav-item nav-link active showsidebar" onclick="openNav()"><i class="fa fa-bars" aria-hidden="true"></i></button>                        -->
+<!--        </div>-->
+        <span style="margin-right: 30px;margin-left:30px;width:100px">
+          <a href="#" class="navbar-brand" style="font-family:'Dancing Script';font-size: 25px; font-weight: bold;color: #e84393;">
+          <img src="{% static '/images/cosmoshop-icon.png' %}" style="margin-bottom: 10px;">Cosmoshop</a>
+        </span>
+        <ul class="navbar-nav">
+            <li class="nav-item active" id="home">
+                <a class="nav-link" href="/homepage_view">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Brands
+                </a>
+                <ul class="dropdown-menu">
+                      {% for brand in Product_Brands %}
+
+                    <li><a class="dropdown-item" href="/catalog/brand/{{ brand.product_brand_id }}">{{brand.name}}</a></li>
+                     {% endfor %}
+                </ul>
+              </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Categories
+                </a>
+                <ul class="dropdown-menu">
+                    {% for category in Category %}
+                    <li><a class="dropdown-item dropdown-toggle" href="/catalog/category/{{ category.category_id }}">{{category.name}}</a>
+                        <ul class="dropdown-menu">
+                            {% for sub_cat1 in Sub_Category1 %}
+                                {% if sub_cat1.category_id_id == category.category_id %}
+                            <li><a class="dropdown-item dropdown-toggle" href="/catalog/sub_category1/{{ sub_cat1.sub_category1_id }}">{{sub_cat1.name}}</a>
+                                <ul class="dropdown-menu">
+                                     {% for sub_cat2 in Sub_Category2 %}
+                                        {% if sub_cat2.sub_category1_id_id == sub_cat1.sub_category1_id %}
+                                    <li><a class="dropdown-item" href="/catalog/sub_category2/{{ sub_cat2.sub_category2_id }}">{{sub_cat2.name}}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="about_us" href="/about_us">About Us</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="contact_us" href="/contact_us">Contact Us</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="skin_survey" href="/skin_survey">Skin Survey</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="orders" href="/orders">Orders</a>
+            </li>
+        </ul>
+       <form class="form-inline">
+          <div class="input-group">
+            <input type="text" id="search" class="form-control" placeholder="Search">
+              <div class="input-group-append">
+                <button type="button" id="text_search_btn" class="btn btn-secondary"><i class="fa fa-search"></i></button>
+                <button type="button" id="voice_search_btn" class="btn btn-secondary"><i class="fa fa-microphone" aria-hidden="true"></i></button>
+              </div>
+          </div>
+        </form>
+        <div class="navbar-nav">
+          {% comment %} <a href="#" class="nav-item nav-link">Login</a> {% endcomment %}
+          {% if session == 'on' %}
+            <a href="/logout" class="btn btn-info btn-round bg-dark">Logout</a>
+            {% else %}
+            <button type="button" class="btn btn-info btn-round bg-dark" style="margin-left:10px;border:none;color:#A9A9A9;" data-toggle="modal" data-target="#loginModal1">
+            Login
+           </button>
+            {% endif %}
+          <a href="wishlist" id="wishlist" class="nav-item nav-link"><i class="fa fa-heart" aria-hidden="true"></i></a>
+          <span class="badge" id="wishlistbadge" style="color:#A9A9A9;">0</span>
+          <a href="cart"  id="cart"class="nav-item nav-link"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+          <span class="badge" id="cartlistbadge" style="color:#A9A9A9;">0</span>
+        </div>
+      </div>
+    </nav>
+    <!-- Navbar Ends -->
+
+
+<section class="animation" style="margin-top:100px;left:0;right:0">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 ">
+				<div class="row">
+					<div class="container mw-100">
+						<div class="slider-wrapper">
+							<div class="inner-wrapper">
+								<div class="slide">
+								<img height="500" width="1200" style="background-repeat: no-repeat;" src={% static '/images/home_slider_image1.jpg'%}>
+								<span class="image-btn" style="background-color:white;text-decoration:none;">
+								<a href="#" style="color:black;text-decoration:none;">Shop Now </a>
+								</span>
+								</div>
+								<div class="slide">
+								<img height="500" width="1200" style="background-repeat: no-repeat;opacity:70%" src={% static '/images/home_slider_image2.jpg'%}>
+								</div>
+								<div class="slide">
+								<img height="500" width="1200" style="background-repeat: no-repeat;" src={% static '/images/home_slider_image3.jpg'%}>
+								<span class="image-btn" style="background-color:white;text-decoration:none;">
+								<a href="#" style="color:black;text-decoration:none;">Shop Now </a>
+								</span>
+								</div>
+								<div class="slide">
+								<img height="500" width="1200" style="background-repeat: no-repeat;" src={% static '/images/home_slider_image4.jpg'%}>
+								<span class="image-btn" style="background-color:white;text-decoration:none;">
+								<a href="#" style="color:black;text-decoration:none;">Shop Now </a>
+								</span>
+								</div>
+								<div class="slide">
+								<img height="500" width="1200" style="background-repeat: no-repeat;" src={% static '/images/home_slider_image5.jpg'%}>
+								</div>
+							    <div class="slide">
+								<img height="500" width="1200" style="background-repeat: no-repeat;" src={% static '/images/home_slider_image6.jpg'%}>
+								<span class="image-btn" style="background-color:white;text-decoration:none;">
+								<a href="#" style="color:black;text-decoration:none;">Shop Now </a>
+								</span>
+								</div>
+							</div>
+						</div>
+						<div class="button prev"></div>
+						<div class="button next"></div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+	</section>
+	<section class="cards1">
+		<div class="container">
+			<div class="col-md-12">
+				<div class="row" style="margin">
+					<h2 align="center"style="color:black;font-weight:bolder;font-family:Balsamiq Sans;">IN THE SPOTLIGHT</h2>
+					<div class="col-md-6 card" style="border:none;">
+					  <a href="/catalog/brand/PB_02"><img src="{%static '/images/home_card1.jpg'%}" style="height:300px;width:450px;margin-left:50px;border-radius:50px;padding:20px;"></a>
+					</div>
+
+					<div class="col-md-6 card" style="border:none;">
+					<a href="/catalog/brand/PB_12"><img src="{%static '/images/home_card2.jpg'%}" style="height:300px;width:450px;margin-right:50px;border-radius:50px;padding:20px;"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+		<section class="cards2">
+		<div class="container">
+			<div class="col-md-12">
+				<div class="row" style="margin">
+					<div class="col-md-6 card" style="border:none;">
+					  <a href="/catalog/brand/PB_05"><img src="{%static '/images/home_card3.jpg'%}" style="height:300px;width:450px;margin-left:50px;border-radius:50px;padding:20px;"></a>
+					</div>
+
+					<div class="col-md-6 card" style="border:none;">
+					<a href="/catalog/brand/PB_16"><img src="{%static '/images/home_card4.jpg'%}" style="height:300px;width:450px;margin-right:50px;border-radius:50px;padding:20px;"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	         {% comment %} Survey Card Starts {% endcomment %}
+         <section class="survey">
+          <div class="modal fade" id="surveyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content" style="background:url({%static '/images/skin_survey_backgroung.jpg'%});background-repeat:no-repeat;color:#e17055;">
+                <div class="modal-header border-bottom-0">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:black;">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <span style="font-size:30px;font-weight:bolder;font-family:Coustard;text-align:center;color:black;">
+                  <p>
+                     SKIN CARE
+                  </p>
+                  <p>
+                  FINDER
+                  </p>
+                </span>
+               <span style="font-size:20px;font-weight:bolder;font-family:Coustard;text-align:center;color:black;">
+                  <p>
+                    Let's find just what your
+                  </p>
+                  <p>
+                  skin needs to look and feel it's best
+                  </p>
+                </span>
+               <span style="font-size:20px;font-weight:bolder;font-family:Coustard;text-align:center;color:black;">
+                <p>
+
+                  <form method = "post" action="upload_survey_image" enctype="multipart/form-data" name="uploadform" id="uploadform">
+                   {% csrf_token %}
+
+                  <input type="file" class="form-control" id="surveyimage" name="surveyimage" style="width:300px;margin-left:100px;background: black;color: pink;
+                  height:45px;border-radius:20px;">
+
+                  <button type="submit" id="imguploadbutton" style="background-color:black;color:pink;margin-right:20px;font-size:15px;border:none;padding:10px;border-radius:20px;margin-top:10px;">Upload Image</button>
+                  </form>
+                </p>
+               </span>
+              </div>
+            </div>
+          </div>
+          </section>
+        {% comment %} Survey Card Ends {% endcomment %}
+
+					<script type="text/javascript">
+
+                    var cart = document.getElementById("cartlistbadge");
+					//localStorage.removeItem("cart");
+					var x = localStorage.getItem("cart");
+					if(x !== null)
+					{
+						var res = x.split(",");
+						cart.textContent = res.length;
+					}
+
+					var wish = document.getElementById("wishlistbadge");
+					//localStorage.removeItem("wish");
+					var x = localStorage.getItem("wish");
+					if(x !== null)
+					{
+						var res1 = x.split(",");
+						wish.textContent = res1.length;
+					}
+
+					<!--	Speech Recognition	-->
+
+					var speechRecognition = window.webkitSpeechRecognition;
+
+					var recognition = new speechRecognition();
+
+					var search = $("#search")
+
+					var text_search_btn = $("text_search_btn")
+
+					var voice_search_btn = $("voice_search_btn")
+
+					var content = ''
+
+					recognition.continuous = true
+
+					recognition.onstart = function(event){
+						alert("Listening..!");
+					}
+
+					recognition.onspeechend = function(event){
+						alert("Searching..!");
+					}
+
+					recognition.onresult = function(event){
+						var current = event.resultIndex;
+						var transcript = event.results[current][0].transcript
+						content += transcript
+
+						window.location.href = "/search_catalog/"+content
+					}
+
+
+					recognition.onerror = function(event){
+						alert(" Please Try Again..! ");
+					}
+
+					$("#text_search_btn").click(function(event){
+						var keyword = $("#search").val();
+						window.location.href = "/search_catalog/"+keyword
+					});
+
+					$("#voice_search_btn").click(function(event){
+						if( content.length ){
+							content += '';
+						}
+
+						recognition.start();
+					});
+
+                    <!-- Handling FaceError -->
+                    var faceErr = "{{FaceError}}"
+                    if( faceErr != "" )
+                    {
+                        swal({
+						    title: "Error",
+						    text: faceErr,
+							icon: "error"
+						});
+                    }
+                    <!-- Handling SignupError -->
+                    var siguperror = "{{siguperror}}"
+                    if( siguperror != "" )
+                    {
+                        swal({
+						    title: "Error",
+						    text: siguperror,
+							icon: "error"
+						});
+                    }
+                    <!-- Handling SignupSuccess -->
+                    var sigupsuccess = "{{sigupsuccess}}"
+                    if( sigupsuccess != "" )
+                    {
+                        swal({
+						    title: "Success",
+						    text: sigupsuccess,
+							icon: "success"
+						});
+                    }
+                    <!-- Handling SignInError -->
+                    var loginerror = "{{loginerror}}"
+                    if( loginerror != "" )
+                    {
+                        swal({
+						    title: "Error",
+						    text: loginerror,
+							icon: "error"
+						});
+                    }
+                    <!-- Handling SignInSuccess -->
+                    var loginsuccess = "{{loginsuccess}}"
+                    if( loginsuccess != "" )
+                    {
+                        swal({
+						    title: "Success",
+						    text: loginsuccess,
+							icon: "success"
+						});
+                    }
+					<!--	Handling Query Strings -->
+						var msg = "{{msg}}";
+						var skin_color = "{{skin_color}}";
+						if ( msg != "" )
+						{
+							setTimeout(function(){
+             				swal({
+								  title: "Would you like to check recommended products?",
+								  text: "Successfully reviewed your skin. "+msg ,
+								  icon: "success",
+								  buttons: true,
+								  successMode: true,
+								  showCancelButton: true,
+								})
+								.then((willDelete) => {
+								  if (willDelete) {
+									swal("Redirecting to catalog page ..!", {
+									  icon: "success",
+									});
+
+									if( msg.includes('Pimples') ){
+									window.location.href = "/recommended_product_catalog/pimples/"+skin_color
+									}
+
+									if( msg.includes('Wrinkles') ){
+									window.location.href = "/recommended_product_catalog/wrinkles/"+skin_color
+									}
+
+									if( !msg.includes('Pimples') && ! msg.includes('Wrinkles') ){
+									window.location.href = "/recommended_product_catalog/noproblem/"+skin_color
+									}
+
+								  } else {
+									swal("Happy Shopping..!", {
+									  icon: "success",
+									});
+								  }
+								});
+						}
+						, 3000);
+
+             			}
+             			else
+             			{
+             				setTimeout(function(){
+              				$('#surveyModal').modal('show');
+            				 }, 10000);
+             			}
+
+					<!--	End Handling Query Strings -->
+					</script>
+
+{% endblock %}

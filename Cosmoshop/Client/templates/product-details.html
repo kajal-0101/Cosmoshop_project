@@ -1,0 +1,282 @@
+{%extends 'template.html' %}
+{%load static%}
+{% block content %}
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+<script src="{% static '/js/image_slider.js' %}"></script>
+<script src="{% static '/js/main.js' %}"></script>
+<link rel="stylesheet" href="{%static '/css/product-details.css'%}">
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+ <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+       	<div id="content">
+        <div class="bs-example">
+            <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark navbar-hover">
+    <div class="collapse navbar-collapse" id="navbarHover">
+<!--        <div id="main-sidebar">-->
+<!--            <button class="nav-item nav-link active showsidebar" onclick="openNav()"><i class="fa fa-bars" aria-hidden="true"></i></button>                        -->
+<!--        </div>-->
+        <span style="margin-right: 30px;margin-left:30px;width:100px">
+          <a href="#" class="navbar-brand" style="font-family:'Dancing Script';font-size: 25px; font-weight: bold;color: #e84393;">
+          <img src="{% static '/images/cosmoshop-icon.png' %}" style="margin-bottom: 10px;">Cosmoshop</a>
+        </span>
+        <ul class="navbar-nav">
+            <li class="nav-item active" id="home">
+                <a class="nav-link" href="/homepage_view">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Brands
+                </a>
+                <ul class="dropdown-menu">
+                      {% for brand in Product_Brands %}
+
+                    <li><a class="dropdown-item" href="/catalog/brand/{{ brand.product_brand_id }}">{{brand.name}}</a></li>
+                     {% endfor %}
+                </ul>
+              </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Categories
+                </a>
+                <ul class="dropdown-menu">
+                    {% for category in Category %}
+                    <li><a class="dropdown-item dropdown-toggle" href="/catalog/category/{{ category.category_id }}">{{category.name}}</a>
+                        <ul class="dropdown-menu">
+                            {% for sub_cat1 in Sub_Category1 %}
+                                {% if sub_cat1.category_id_id == category.category_id %}
+                            <li><a class="dropdown-item dropdown-toggle" href="/catalog/sub_category1/{{ sub_cat1.sub_category1_id }}">{{sub_cat1.name}}</a>
+                                <ul class="dropdown-menu">
+                                     {% for sub_cat2 in Sub_Category2 %}
+                                        {% if sub_cat2.sub_category1_id_id == sub_cat1.sub_category1_id %}
+                                    <li><a class="dropdown-item" href="/catalog/sub_category2/{{ sub_cat2.sub_category2_id }}">{{sub_cat2.name}}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="about_us" href="/about_us">About Us</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="contact_us" href="/contact_us">Contact Us</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="skin_survey" href="/skin_survey">Skin Survey</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="orders" href="/orders">Orders</a>
+            </li>
+        </ul>
+       <form class="form-inline">
+          <div class="input-group">
+            <input type="text" id="search" class="form-control" placeholder="Search">
+              <div class="input-group-append">
+                <button type="button" id="text_search_btn" class="btn btn-secondary"><i class="fa fa-search"></i></button>
+                <button type="button" id="voice_search_btn" class="btn btn-secondary"><i class="fa fa-microphone" aria-hidden="true"></i></button>
+              </div>
+          </div>
+        </form>
+        <div class="navbar-nav">
+          {% comment %} <a href="#" class="nav-item nav-link">Login</a> {% endcomment %}
+           {% if session == 'on' %}
+            <a href="/logout" class="btn btn-info btn-round bg-dark">Logout</a>
+            {% else %}
+            <button type="button" class="btn btn-info btn-round bg-dark" style="margin-left:10px;border:none;color:#A9A9A9;" data-toggle="modal" data-target="#loginModal1">
+            Login
+           </button>
+            {% endif %}
+          <a href="/wishlist" id="wishlist" class="nav-item nav-link"><i class="fa fa-heart" aria-hidden="true"></i></a>
+          <span class="badge" id="wishlistbadge" style="color:#A9A9A9;">0</span>
+          <a href="/cart"  id="cart"class="nav-item nav-link"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+          <span class="badge" id="cartlistbadge" style="color:#A9A9A9;">0</span>
+        </div>
+      </div>
+    </nav>
+    <!-- Navbar Ends -->
+
+
+	<section class="animation" style="margin-top:100px;left:0;right:0">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 ">
+				<div class="row">
+                    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <!-- product -->
+                            {% for product in Products %}
+                            <div class="product-content product-wrap clearfix product-deatil">
+                                <div class="row">
+                                    <div class="col-md-5 col-sm-12 col-xs-12">
+                                        <div class="product-image">
+
+                                             <img src="{%static '/images/Products/' %}{{product.product_image}}" width="400" height="500">
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 col-md-offset-1 col-sm-12 col-xs-12">
+                                        <h2 class="name">
+                                           {{product.name}}
+                                        </h2>
+                                        <hr />
+                                        <h3 class="price-container">
+                                           <i class="fa fa-rupee"></i>{{product.price}}
+                                            <small>*includes tax</small>
+                                        </h3>
+                                        <div class="certified">
+                                            <ul>
+                                                <li>
+                                                    <a href="javascript:void(0);">Delivery time<span>7 Working Days</span></a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);">Certified<span>Quality Assured</span></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                                <a href="/cart" class="btn btn-success btn-lg">Add to cart <i class="fa fa-rupee"></i> {{product.price}}</a>
+                                            </div>
+                                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                                <div class="btn-group pull-right">
+                                                    <a href="/wishlist" class="btn btn-white btn-default"><i class="fa fa-star" style="color:#DB7093;"></i> Add to wishlist</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <p class="description description-tabs">
+                                            <p id="myTab" class="nav nav-pills">
+                                                <p><li class="active" style="list-style-type:none;text-decoration:none;font-size:20px;font-weight:bold;"><a href="#more-information" data-toggle="tab" class="no-margin">Product Description </a></li></p>
+                                        <p><li class="" style="list-style-type:none;text-decoration:none;font-size:20px;font-weight:bold;"><a href="#reviews" data-toggle="tab">Reviews</a></li></p>
+                                            </ul>
+                                            <div id="myTabContent" class="tab-content">
+                                                <div class="tab-pane fade active in" id="more-information">
+                                                    <br />
+                                                    <strong>Description Title</strong>
+                                                    <p>
+                                                    {{product.description}}
+                                                    </p>
+                                                </div>
+
+                                                <div class="tab-pane fade" id="reviews">
+                                                    <br />
+                                                <form class="well padding-bottom-10" >
+                                                {% csrf_token %}
+                                                        <textarea rows="2" id="write_review" class="form-control" placeholder="Write a review"></textarea>
+                                                        <div class="margin-top-10">
+                                                            {% if session == 'on' %}
+                                                            <a onclick="add_review('{{customer_id}}','{{product.product_id}}');" href="javascript:void(0);" class="btn btn-sm btn-primary pull-right" style="margin-top:10px;margin-bottom:50px;text-decoration:none"> Submit Review </a>
+                                                            {% else %}
+                                                            <a onclick="login_popup();" href="javascript:void(0);" class="btn btn-sm btn-primary pull-right" style="margin-top:10px;margin-bottom:50px;;text-decoration:none"> Submit Review </a>
+                                                            {% endif %}
+                                                        </div>
+                                                </form>
+
+                                                    <div class="chat-body no-padding profile-message" style="margin-top:50px;">
+                                                        {% for review in Reviews %}
+                                                        <ul>
+
+
+                                                            <li class="message">
+                                                                <img src="{%static '/images/avtar.png' %}" class="online" />
+                                                                <span class="message-text">
+                                                                    <a href="javascript:void(0);" class="username">
+                                                                        Anonymous
+                                                                        <span class="badge">Purchase Verified</span>
+
+                                                                    </a>
+                                                                   <span class="message"> {{ review.review_message}} </span>
+                                                                </span>
+
+                                                            </li>
+
+
+                                                        </ul>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                               {% endfor%}
+
+
+                                            </div>
+                                        </div>
+                                        <hr />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end product -->
+
+                        </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+<script language="text/javascript">
+
+    <!--	Speech Recognition	-->
+
+
+					var speechRecognition = window.webkitSpeechRecognition;
+					var recognition = new speechRecognition();
+
+					var search = $("#search")
+
+					var text_search_btn = $("text_search_btn")
+
+					var voice_search_btn = $("voice_search_btn")
+
+					var content = ''
+
+					recognition.continuous = true
+
+					recognition.onstart = function(event){
+						alert("Listening..!");
+					}
+
+					recognition.onspeechend = function(event){
+						alert("Searching..!");
+					}
+
+					recognition.onresult = function(event){
+						var current = event.resultIndex;
+						var transcript = event.results[current][0].transcript
+						content += transcript
+
+						window.location.href = "/search_catalog/"+content
+					}
+
+
+					recognition.onerror = function(event){
+						alert(" Please Try Again..! ");
+					}
+
+					$("#text_search_btn").click(function(event){
+						var keyword = $("#search").val();
+						window.location.href = "/search_catalog/"+keyword
+					});
+
+					$("#voice_search_btn").click(function(event){
+						if( content.length ){
+							content += '';
+						}
+
+						recognition.start();
+					});
+            //add review
+
+
+
+
+</script>
+{% endblock %}

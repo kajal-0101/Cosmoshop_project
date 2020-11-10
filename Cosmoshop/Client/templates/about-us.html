@@ -1,0 +1,231 @@
+{%extends 'template.html' %}
+{%load static%}
+{% block content %}
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+
+<script src="{% static '/js/image_slider.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+           <div id="content">
+        <div class="bs-example">
+            <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark navbar-hover">
+    <div class="collapse navbar-collapse" id="navbarHover">
+<!--        <div id="main-sidebar">-->
+<!--            <button class="nav-item nav-link active showsidebar" onclick="openNav()"><i class="fa fa-bars" aria-hidden="true"></i></button>                        -->
+<!--        </div>-->
+        <span style="margin-right: 30px;margin-left:30px;width:100px">
+          <a href="#" class="navbar-brand" style="font-family:'Dancing Script';font-size: 25px; font-weight: bold;color: #e84393;">
+          <img src="{% static '/images/cosmoshop-icon.png' %}" style="margin-bottom: 10px;">Cosmoshop</a>
+        </span>
+        <ul class="navbar-nav">
+            <li class="nav-item active" id="home">
+                <a class="nav-link" href="homepage_view">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Brands
+                </a>
+                <ul class="dropdown-menu">
+                      {% for brand in Product_Brands %}
+
+                    <li><a class="dropdown-item" href="/catalog/brand/{{ brand.product_brand_id }}">{{brand.name}}</a></li>
+                     {% endfor %}
+                </ul>
+              </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Categories
+                </a>
+                <ul class="dropdown-menu">
+                    {% for category in Category %}
+                    <li><a class="dropdown-item dropdown-toggle" href="/catalog/category/{{ category.category_id }}">{{category.name}}</a>
+                        <ul class="dropdown-menu">
+                            {% for sub_cat1 in Sub_Category1 %}
+                                {% if sub_cat1.category_id_id == category.category_id %}
+                            <li><a class="dropdown-item dropdown-toggle" href="/catalog/sub_category1/{{ sub_cat1.sub_category1_id }}">{{sub_cat1.name}}</a>
+                                <ul class="dropdown-menu">
+                                     {% for sub_cat2 in Sub_Category2 %}
+                                        {% if sub_cat2.sub_category1_id_id == sub_cat1.sub_category1_id %}
+                                    <li><a class="dropdown-item" href="/catalog/sub_category2/{{ sub_cat2.sub_category2_id }}">{{sub_cat2.name}}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="about_us" href="about_us">About Us</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="contact_us" href="contact_us">Contact Us</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="skin_survey" href="skin_survey">Skin Survey</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="orders" href="orders">Orders</a>
+            </li>
+        </ul>
+       <form class="form-inline">
+          <div class="input-group">
+            <input type="text" id="search" class="form-control" placeholder="Search">
+              <div class="input-group-append">
+                <button type="button" class="btn btn-secondary"><i class="fa fa-search"></i></button>
+                <button type="button" class="btn btn-secondary"><i class="fa fa-microphone" aria-hidden="true"></i></button>
+              </div>
+          </div>
+        </form>
+        <div class="navbar-nav">
+          {% comment %} <a href="#" class="nav-item nav-link">Login</a> {% endcomment %}
+          <button type="button" class="btn btn-info btn-round bg-dark" style="margin-left:10px;border:none;color:#A9A9A9;" data-toggle="modal" data-target="#loginModal1">
+            Login
+           </button>
+          <a href="wishlist" id="wishlist" class="nav-item nav-link"><i class="fa fa-heart" aria-hidden="true"></i></a>
+          <span class="badge" id="wishlistbadge" style="color:#A9A9A9;">0</span>
+          <a href="cart"  id="cart"class="nav-item nav-link"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+          <span class="badge" id="wishlistbadge" style="color:#A9A9A9;">0</span>
+        </div>
+      </div>
+    </nav>
+    <!-- Navbar Ends -->
+
+
+
+	<section class="animation" style="margin-top:100px;left:0;right:0">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 ">
+				<div class="row">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+
+<section class="breadcrumbs-section" style="background-color: #e9ecef;">
+  <div class="pure-g p-1 p-sm-3">
+    <div class="row">
+      <div class="col-12">
+        <h2>About Us</h2>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="home.html">Home</a></li>
+          <li class="breadcrumb-item active">About Us</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about-company-section">
+ <div class="pure-g p-1 p-sm-3">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h2>About Cosmoshop</h2>
+        <hr/>
+      </div>
+
+      <div class="col-md-3">
+        <img class="img-fluid" src={% static '/images/about-logo.jfif' %}>
+      </div>
+
+      <div class="col-md-9">
+        <p style="text-align: justify; text-justify: inter-word;">The worldwide inclination towards online activity has been instrumental in popularising e-commerce in various industry sectors including beauty sector. The availability of several forms of beauty products, makeup and beauty tutorials on social sites worldwide makes it harder to identify the untapped segments of the beauty market. But the struggle of customers for finding their desired products proves the existence of the gaps.Cosmoshop has been put forward by thoroughly observing the e-commerce cosmetic's domain from the customer's point of view and expectations and expects to provide a solution. </p>
+        <p style="text-align: justify; text-justify: inter-word;">Cosmoshop went by the tagline "defining maquillage", but has decided to go by the tagline "pamper yourself" hoping that all of its customers will be able to pamper themselves through it.</p>
+      </div>
+    </div>
+  </div> 
+</section>
+
+<section class="requirements-section pt-1 pb-1 pt-md-2 pb-md-2" style="background-color: #273c75; margin-bottom: 50px;">
+  <div class="pure-g">
+    <div class="row">
+      <div class="col-md-9 text-center" style="color: white">
+        <h3 style="font-size: 25px;">Check out CosmoShop Blog for awesome informations</h3>
+      </div>
+      <div class="col-md-3">
+        <a href="blog" class="btn btn-primary text-center" style="width: 100px;color: #fff; border-color: transparent;background-color: #B53471;">Blog</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pt-3 pb-4">
+  <div class="pure-g">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h3>Meet the Cosmoshop Team</h3>
+        <hr/>
+      </div>
+    </div>
+    <div class="row">
+     <div class="col-md-4 text-center">
+       <img class="img-fluid p-5" src={% static '/images/nishi.png' %} alt="Nishi" style="width: 300px;">
+       <h5>Designer Head</h5>
+       <p>Shah Nishi Kalpeshkumar</p>
+     </div>
+
+     <div class="col-md-4 text-center">
+       <img class="img-fluid p-5" src={% static '/images/sarika.png' %} alt="Sarika" style="width: 300px;">
+       <h5>Founder and CEO</h5>
+       <p>Sarika Jha</p>
+     </div> 
+
+     <div class="col-md-4 text-center">
+       <img class="img-fluid p-5" src={% static '/images/kajal.png' %} alt="Kajal" style="width: 300px;">
+       <h5>Business Head</h5>
+       <p>Kajal Chatterjee</p>
+     </div>
+    </div>
+  </div>
+
+</section>
+
+
+<section class="client-section pt-3 pb-4" style="background-color: #f0f0f0;">
+  <div class="pure-g">
+    <div class="row mt-4">
+      <div class="col-12 text-center">
+        <h3>Our Brand Partners</h3>
+      </div>
+    </div>
+    <hr/>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-2 col-6">
+      <img class="img-fluid p-2" src={% static '/images/eye-mascara.png' %} alt="Mascara" style="width: 120px;">
+    </div>
+
+    <div class="col-md-2 col-6">
+      <img class="img-fluid p-2" src={% static '/images/concealer.png' %} alt="Concealer" style="width: 120px;">
+    </div>
+
+    <div class="col-md-2 col-6">
+      <img class="img-fluid p-2" src={% static '/images/eye-shadows.png' %} alt="eye shadow" style="width: 120px;">
+    </div>
+
+    <div class="col-md-2 col-6">
+      <img class="img-fluid p-2" src={% static '/images/bronzer.png' %} alt="bronzer" style="width: 120px;">
+    </div>
+
+    <div class="col-md-2 col-6">
+      <img class="img-fluid p-2" src={% static '/images/blusher.png' %} alt="blusher" style="width: 120px;">
+    </div>
+
+    <div class="col-md-2 col-6">
+      <img class="img-fluid p-2" src={% static '/images/lipstick.png' %} alt="lipstick" style="width: 120px;">
+    </div>
+  </div>
+</section>
+
+<!-- Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a> -->
+
+
+{% endblock %}

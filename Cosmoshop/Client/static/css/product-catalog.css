@@ -1,0 +1,209 @@
+.t-products {
+    /*background-image: linear-gradient(to right top, #5629c0, #5625cb, #5620d5, #551ae0, #5412eb);*/
+    background-image: linear-gradient(315deg, #d9e4f5 0%, #f5e3e6 74%);
+    border-radius: 10px;
+    color: #581845;
+    border-radius: 10px;
+}
+
+.processor {
+    color: #581845;
+    margin-top: 10px;
+    border-bottom: 1px solid #eee
+    background-color: #d9e4f5;
+    background-image: linear-gradient(315deg, #d9e4f5 0%, #f5e3e6 74%);
+    border-radius: 10px;
+}
+.brand {
+    color: #581845;
+    margin-top: 10px;
+    background-image: linear-gradient(315deg, #d9e4f5 0%, #f5e3e6 74%);
+    border-radius: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.type {
+    color: #581845;
+    background-image: linear-gradient(315deg, #d9e4f5 0%, #f5e3e6 74%);
+    border-radius: 10px;
+    margin-top: 10px;
+}
+.container-fluid i{
+    color: #581845;
+    font-size:15px;
+}
+.product {
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    position: relative
+    transition: transform .2s; /* Animation */
+}
+
+.text-center{
+    transition: transform .2s; /* Animation */
+}
+
+.text-center:hover {
+transform: scale(1.1);
+}
+
+.about span {
+    color: #5629c0;
+    font-size: 16px
+}
+
+.cart-button button {
+    font-size: 12px;
+    color: #fff;
+    /* background-color: #5629c0; */
+    border: 1px solid #eec0c6;
+    background-color: #eec0c6;
+    background-image: linear-gradient(315deg, #eec0c6 0%, #e58c8a 74%);
+    height: 38px
+}
+
+.cart-button button:hover,
+button:active {
+    font-size: 12px;
+    color: #fff;
+    /*background-color: #5629c0;*/
+    box-shadow: none
+    background-color: #7f5a83;
+    background-image: linear-gradient(315deg, #7f5a83 0%, #0d324d 74%);
+    border: 1px solid #7f5a83;
+}
+
+.product_fav {
+    line-height: 40px;
+    color: #7f5a83;
+    font-size: 15px
+}
+
+.product_fav {
+    display: inline-block;
+    width: 36px;
+    height: 39px;
+    background: #FFFFFF;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 11%;
+    text-align: center;
+    cursor: pointer;
+    margin-left: 3px;
+    -webkit-transition: all 200ms ease;
+    -moz-transition: all 200ms ease;
+    -ms-transition: all 200ms ease;
+    -o-transition: all 200ms ease;
+    transition: all 200ms ease
+}
+
+.product_fav:hover {
+    color:#fff;
+    background-color: #7f5a83;
+    background-image: linear-gradient(315deg, #7f5a83 0%, #0d324d 74%);
+    border: 1px solid #7f5a83;
+
+}
+
+.product_fav:hover i{
+    color: #fff
+}
+
+.about {
+    margin-top: 12px
+}
+
+.off {
+    position: absolute;
+    left: 65%;
+    top: 6%;
+    width: 80px;
+    text-align: center;
+    height: 30px;
+    line-height: 8px;
+    border-radius: 5px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff
+}
+
+
+/* Base for label styling */
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+  position: absolute;
+  left: -9999px;
+}
+[type="checkbox"]:not(:checked) + label,
+[type="checkbox"]:checked + label {
+  position: relative;
+  padding-left: 1.95em;
+  cursor: pointer;
+}
+
+/* checkbox aspect */
+[type="checkbox"]:not(:checked) + label:before,
+[type="checkbox"]:checked + label:before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0;
+  width: 1.25em; height: 1.25em;
+  border: 2px solid #ccc;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
+}
+/* checked mark aspect */
+[type="checkbox"]:not(:checked) + label:after,
+[type="checkbox"]:checked + label:after {
+  content: '\2713\0020';
+  position: absolute;
+  top: .15em; left: .22em;
+  font-size: 1.3em;
+  line-height: 0.8;
+  color: #09ad7e;
+  transition: all .2s;
+  font-family: 'Lucida Sans Unicode', 'Arial Unicode MS', Arial;
+}
+/* checked mark aspect changes */
+[type="checkbox"]:not(:checked) + label:after {
+  opacity: 0;
+  transform: scale(0);
+}
+[type="checkbox"]:checked + label:after {
+  opacity: 1;
+  transform: scale(1);
+}
+/* hover style just for information */
+label:hover:before {
+  border: 2px solid #4778d9!important;
+}
+h1, h2 {
+  margin-bottom: .25em;
+  font-weight: normal;
+  text-align: center;
+}
+h2 {
+  margin: .25em 0 2em;
+  color: #aaa;
+}
+/*form {
+  width: 7em;
+  margin: 0 auto;
+}
+*/
+.txtcenter {
+  margin-top: 4em;
+  font-size: .9em;
+  text-align: center;
+  color: #aaa;
+}
+.copy {
+ margin-top: 2em;
+}
+.copy a {
+ text-decoration: none;
+ color: #4778d9;
+}
